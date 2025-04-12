@@ -1,0 +1,19 @@
+# Unity 
+HideAndSeek/Library/
+HideAndSeek/Temp/
+HideAndSeek/Obj/
+HideAndSeek/Build/
+HideAndSeek/Builds/
+HideAndSeek/Logs/
+HideAndSeek/UserSettings/
+
+# Rider / VS / VSCode
+HideAndSeek/.vs/
+HideAndSeek/*.csproj
+HideAndSeek/*.sln
+HideAndSeek/*.user
+HideAndSeek/*.pidb
+HideAndSeek/*.suo
+HideAndSeek/*.unityproj
+HideAndSeek/*.tmproj
+HideAndSeek/*.booproj
