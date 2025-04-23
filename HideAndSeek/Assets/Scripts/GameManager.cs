@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ public class GameManager : MonoBehaviour
     public float gameDuration = 60f;
     private float _timer;
     private bool _gameActive = false;
+  
+    public bool IsGameActive => _gameActive;
 
     [Header("UI")]
     public TextMeshProUGUI timerText;
@@ -17,6 +20,10 @@ public class GameManager : MonoBehaviour
 
     [Header("Agents")]
     public AgentGroupManager agentGroup; 
+    
+    [Header("Agent Position Control")]
+    public bool randomizeStartPositionsOnGameStart = true;
+
 
     void Awake()
     {
@@ -26,13 +33,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        ResetAllAgents();
-
-        if (timerText != null)
-        {
-            timerText.gameObject.SetActive(true);
-            timerText.text = "Press " + startGameKey + " to start!";
-        }
+        InitializeAndResetAgents();
     }
 
     void Update()
@@ -48,7 +49,8 @@ public class GameManager : MonoBehaviour
 
         UpdateTimer();
     }
-
+    
+    ////// Game state management functions //////
     public void StartGame()
     {
         _gameActive = true;
@@ -57,8 +59,17 @@ public class GameManager : MonoBehaviour
         if (timerText != null)
             timerText.gameObject.SetActive(true);
 
-        ResetAllAgents();
+        if (agentGroup != null)
+        {
+            if (randomizeStartPositionsOnGameStart && agentGroup.randomPositions)
+            {
+                agentGroup.SetRandomStartPositions();
+            }
+
+            agentGroup.ResetAllAgents();
+        }
     }
+
 
     public void EndGame(bool hiderWon)
     {
@@ -70,7 +81,20 @@ public class GameManager : MonoBehaviour
         if (timerText != null)
             timerText.text = (hiderWon ? "Hider wins!" : "Seeker wins!") + "\nPress " + startGameKey + " to restart.";
     }
+    
+    public void SeekerCaughtHider()
+    {
+        if (!_gameActive)
+        {
+            Debug.LogWarning("Seeker tried to end game while it wasn't active.");
+            return;
+        }
 
+        EndGame(false); // Seeker wins
+    }
+
+    ////// Timer functions //////
+    
     private void OnToggleTimer()
     {
         if (Input.GetKeyDown(toggleTimerKey) && timerText != null)
@@ -94,11 +118,47 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    ////// Agent positioning functions //////
+    
     private void ResetAllAgents()
     {
-        if (agentGroup != null)
+        if (agentGroup != null && agentGroup.AgentsInitialized)
         {
             agentGroup.ResetAllAgents();
         }
+        else
+        {
+            Debug.LogWarning("Tried to reset agents before they were initialized.");
+        }
     }
+
+    private void InitializeAndResetAgents()
+    {
+        StartCoroutine(WaitForAgentInitAndReset());
+    }
+
+    private IEnumerator WaitForAgentInitAndReset()
+    {
+        if (agentGroup == null)
+        {
+            Debug.LogWarning("AgentGroupManager is not assigned.");
+            yield break;
+        }
+
+        while (!agentGroup.AgentsInitialized)
+        {
+            yield return null; // wait one frame
+        }
+
+        ResetAllAgents();
+
+        if (timerText != null)
+        {
+            timerText.gameObject.SetActive(true);
+            timerText.text = "Press " + startGameKey + " to start!";
+        }
+    }
+
+
+   
 }

@@ -6,8 +6,7 @@ public class SeekerBehaviour : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Hider"))
         {
-            Debug.Log("Hider caught!");
-            GameManager.Instance.EndGame(false);
+            GameManager.Instance.SeekerCaughtHider();
         }
     }
 }
