@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,7 +19,22 @@ public class AgentControllerManager : MonoBehaviour
     private AgentMovement _activeAgent;
     private GameObject _currentIndicator;
 
-    void Update()
+    void FixedUpdate()
+    {
+        if (_activeAgent != null)
+        {
+            Vector2 input = Vector2.zero;
+
+            if (Input.GetKey(upKey)) input.x -= 1f;
+            if (Input.GetKey(downKey)) input.x += 1f;
+            if (Input.GetKey(rightKey)) input.y += 1f;
+            if (Input.GetKey(leftKey)) input.y -= 1f;
+
+            _activeAgent.Move(input);
+        }
+    }
+
+    private void Update()
     {
         if (Input.GetMouseButtonDown(deselectAgentMouseButtonIndex))
         {
@@ -37,18 +53,6 @@ public class AgentControllerManager : MonoBehaviour
                     SetActiveAgent(clickedAgent);
                 }
             }
-        }
-
-        if (_activeAgent != null)
-        {
-            Vector2 input = Vector2.zero;
-
-            if (Input.GetKey(upKey)) input.x -= 1f;
-            if (Input.GetKey(downKey)) input.x += 1f;
-            if (Input.GetKey(rightKey)) input.y += 1f;
-            if (Input.GetKey(leftKey)) input.y -= 1f;
-
-            _activeAgent.Move(input);
         }
     }
 
