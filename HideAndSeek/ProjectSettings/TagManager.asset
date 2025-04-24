@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Seeker
   - Hider
+  - Door
   layers:
   - Default
   - TransparentFX

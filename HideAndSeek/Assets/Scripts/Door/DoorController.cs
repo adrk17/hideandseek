@@ -13,6 +13,7 @@ public class DoorController : MonoBehaviour
     private Vector3 targetPos;
 
     private bool isOpen = false;
+    public bool IsOpen => isOpen;
 
     void Start()
     {

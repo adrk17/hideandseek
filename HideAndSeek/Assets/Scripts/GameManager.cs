@@ -38,15 +38,18 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (!_gameActive)
+        if (Input.GetKeyDown(startGameKey))
         {
-            if (Input.GetKeyDown(startGameKey))
+            if (!_gameActive)
             {
                 StartGame();
             }
-            return;
+            else
+            {
+                ResetGame();
+            }
         }
-
+        
         UpdateTimer();
     }
     
@@ -69,8 +72,7 @@ public class GameManager : MonoBehaviour
             agentGroup.ResetAllAgents();
         }
     }
-
-
+    
     public void EndGame(bool hiderWon)
     {
         _gameActive = false;
@@ -93,6 +95,18 @@ public class GameManager : MonoBehaviour
         EndGame(false); // Seeker wins
     }
 
+    public void ResetGame()
+    {
+        _gameActive = false;
+        _timer = gameDuration;
+        
+        if (timerText != null)
+            timerText.gameObject.SetActive(false);
+        ResetAllAgents();
+        
+        Debug.Log("Game reset.");
+    }
+
     ////// Timer functions //////
     
     private void OnToggleTimer()
@@ -105,6 +119,9 @@ public class GameManager : MonoBehaviour
 
     private void UpdateTimer()
     {
+        if(!_gameActive)
+            return;
+        
         OnToggleTimer();
 
         _timer -= Time.deltaTime;
@@ -158,7 +175,4 @@ public class GameManager : MonoBehaviour
             timerText.text = "Press " + startGameKey + " to start!";
         }
     }
-
-
-   
 }
