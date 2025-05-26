@@ -5,6 +5,8 @@ public class AgentMovement : MonoBehaviour
 {
     public float moveSpeed = 3f;
     public Vector3 startPosition = new Vector3(13f, 2f, 19f);
+    
+    private bool _isAlive = true;
 
     private Rigidbody rb;
 
@@ -27,6 +29,21 @@ public class AgentMovement : MonoBehaviour
             Vector3 targetPosition = rb.position + direction * (moveSpeed * Time.fixedDeltaTime);
             rb.MovePosition(targetPosition);
         }
+    }
+
+    public Vector3 GetVelocity()
+    {
+        return rb.velocity;
+    }
+    
+    public Vector3 GetPosition()
+    {
+        return transform.position;
+    }
+
+    public bool IsAlive()
+    {
+        return _isAlive;
     }
 
     public void ResetPosition()

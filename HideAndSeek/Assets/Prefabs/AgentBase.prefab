@@ -14,6 +14,9 @@ GameObject:
   - component: {fileID: 7383113853344356490}
   - component: {fileID: 2059481072395046885}
   - component: {fileID: 8874622180748146045}
+  - component: {fileID: 901957123671912426}
+  - component: {fileID: 1572742845399538381}
+  - component: {fileID: 3794226673655642533}
   m_Layer: 0
   m_Name: AgentBase
   m_TagString: Untagged
@@ -150,3 +153,86 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   startPosition: {x: 13, y: 2, z: 19}
+--- !u!114 &901957123671912426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6627235908357561289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1c4e0b1822b495aa52bc52839ecb30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BrainParameters:
+    VectorObservationSize: 1
+    NumStackedVectorObservations: 1
+    m_ActionSpec:
+      m_NumContinuousActions: 0
+      BranchSizes: 0300000003000000
+    VectorActionSize: 0300000003000000
+    VectorActionDescriptions: []
+    VectorActionSpaceType: 0
+    hasUpgradedBrainParametersWithActionSpec: 1
+  m_Model: {fileID: 0}
+  m_InferenceDevice: 0
+  m_BehaviorType: 0
+  m_BehaviorName: My Behavior
+  TeamId: 0
+  m_UseChildSensors: 1
+  m_UseChildActuators: 1
+  m_ObservableAttributeHandling: 0
+--- !u!114 &1572742845399538381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6627235908357561289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 3
+  TakeActionsBetweenDecisions: 1
+--- !u!114 &3794226673655642533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6627235908357561289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 915844001769db742b665f38cf92d8c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 50000
+  enableGradeLogging: 0
+  ownPosition: 1
+  ownVelocity: 1
+  seekersPosition: 1
+  hidersPosition: 1
+  doorsPosition: 1
+  doorsAgentsAmount: 1
+  doorsState: 1
+  leftHiders: 1
+  leftSeekers: 1
+  areSeekersInBase: 1
+  distanceToNearestHider: 0
+  distanceToNearestHiderReward: 0
+  hiderCaught: 0
+  hiderCaughtReward: 0
+  seekersInvadedBase: 0
+  seekersInvadedBaseReward: 0
+  perSecondOfLife: 0
+  perSecondOfLifeReward: 0
+  winByTimeout: 0
+  winByTimeoutReward: 0
+  baseIsSecure: 0
+  baseIsSecureReward: 0

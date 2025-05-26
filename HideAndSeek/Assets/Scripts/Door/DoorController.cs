@@ -1,5 +1,11 @@
 using UnityEngine;
 
+public struct DoorOccupiers
+{
+    public int seekersAmount;
+    public int hidersAmount;
+}
+
 public class DoorController : MonoBehaviour
 {
     public PressurePlate plate;
@@ -29,7 +35,9 @@ public class DoorController : MonoBehaviour
 
     void UpdateDoorLogic()
     {
-        bool shouldOpen = plate.seekerCount > plate.hiderCount;
+        bool shouldOpen = plate.seekerCount > plate.hiderCount 
+                          || plate.seekerCount == 0 & plate.hiderCount > 0
+                          ||  plate.seekerCount == 0 & plate.hiderCount == 0;
         
         // Start opening the door
         if (shouldOpen && !isOpen)
@@ -49,5 +57,23 @@ public class DoorController : MonoBehaviour
 
             isOpen = false;
         }
+    }
+
+    public Vector3 GetPosition()
+    {
+        return doorTransform.position;
+    }
+
+    public bool GetState()
+    {
+        return IsOpen;
+    }
+
+    public DoorOccupiers GetOccupiers()
+    {
+        var newOccupiers = new DoorOccupiers();
+        newOccupiers.seekersAmount = plate.seekerCount;
+        newOccupiers.hidersAmount = plate.hiderCount;
+        return newOccupiers;
     }
 }
