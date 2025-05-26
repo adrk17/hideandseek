@@ -64,6 +64,7 @@ namespace MlAgents
         public bool IsActive { get; set; }
         private float _lastPositionCheck;
         private float _lastRewardGranted;
+        private bool _baseWasInvaded = false;
 
         private const float _diagonalMapLength = 111; 
         
@@ -84,6 +85,7 @@ namespace MlAgents
         public override void OnEpisodeBegin()
         {
             _cumReward = 0;
+            _baseWasInvaded = false;
         }
 
         public override void CollectObservations(VectorSensor sensor)
@@ -155,7 +157,7 @@ namespace MlAgents
             }
             if(areSeekersInBase) 
             {
-                
+                sensor.AddObservation(_dataReferenceCollector.GetSeekersInBaseCount());
             }
         }
 
@@ -186,7 +188,10 @@ namespace MlAgents
                 
             }
             if (seekersInvadedBase) {
-                
+                if (_baseWasInvaded == false && _dataReferenceCollector.GetSeekersInBaseCount() > 0 ) {
+                    _cumReward += seekersInvadedBaseReward;
+                    _baseWasInvaded = true;
+                }
             }
             if (perSecondOfLife) {
                 if (Time.time - _lastRewardGranted >= 1f)
@@ -198,6 +203,9 @@ namespace MlAgents
                 
             }
             if (baseIsSecure) {
+                if (_dataReferenceCollector.GetSeekersInBaseCount() <= 0) {
+                    _cumReward += baseIsSecureReward;
+                }
                 
             }
             
