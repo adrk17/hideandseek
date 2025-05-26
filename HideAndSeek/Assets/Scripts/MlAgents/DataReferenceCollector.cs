@@ -13,7 +13,7 @@ namespace MlAgents
         public List<AgentMovement> seekers;
         public List<AgentMovement> hiders;
 
-        private int _seekersInBase;
+        public InnerBaseTrigger innerBaseTrigger;
         
         public int RegisterSeeker(AgentMovement agent)
         {
@@ -49,29 +49,8 @@ namespace MlAgents
             return seekers;
         }
 
-        public int GetSeekersInBaseCount()
-        {
-            return _seekersInBase;
-        }
-
         public List<DoorController> GetAllDoors() {
-            return new List<DoorController>() {firstDoor, secondDoor};
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.CompareTag("Seeker"))
-            {
-                _seekersInBase++;
-            }
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.gameObject.CompareTag("Seeker"))
-            {
-                _seekersInBase--;
-            }
+            return new List<DoorController>() { firstDoor, secondDoor };
         }
     }
 }

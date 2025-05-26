@@ -159,7 +159,7 @@ namespace MlAgents
             }
             if(areSeekersInBase) 
             {
-                sensor.AddObservation(_dataReferenceCollector.GetSeekersInBaseCount());
+                sensor.AddObservation(_dataReferenceCollector.innerBaseTrigger.AreSeekersInBase());
             }
         }
 
@@ -190,7 +190,7 @@ namespace MlAgents
                 
             }
             if (seekersInvadedBase) {
-                if (_baseWasInvaded == false && _dataReferenceCollector.GetSeekersInBaseCount() > 0 ) {
+                if (_baseWasInvaded == false && _dataReferenceCollector.innerBaseTrigger.AreSeekersInBase() ) {
                     _cumReward += seekersInvadedBaseReward;
                     _baseWasInvaded = true;
                 }
@@ -205,7 +205,7 @@ namespace MlAgents
                 
             }
             if (baseIsSecure) {
-                if (_dataReferenceCollector.GetSeekersInBaseCount() <= 0) {
+                if (!_dataReferenceCollector.innerBaseTrigger.AreSeekersInBase()) {
                     _cumReward += baseIsSecureReward;
                 }
                 
