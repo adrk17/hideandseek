@@ -70,12 +70,14 @@ namespace MlAgents
         
         public void Awake()
         {
+            var learningUtils = GameObject.Find("Learning");
+            _dataReferenceCollector = learningUtils.GetComponent<DataReferenceCollector>();
         }
 
         public void Start()
         {
             _agentMovement = transform.GetComponent<AgentMovement>();
-            _agentMovement = transform.GetComponent<AgentMovement>();
+            _agentMovement = transform.GetComponent<AgentMovement>(); // TODO: ?
         }
 
         public void Update()
