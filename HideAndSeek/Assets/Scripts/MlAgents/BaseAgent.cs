@@ -35,6 +35,8 @@ namespace MlAgents
         private double _cumReward = 0;
         
         [SerializeField] private bool enableGradeLogging;
+        [SerializeField] private bool enableDetailedGradeLogging;
+        [SerializeField] private bool enableDetailedObservationLogging;
 
         [Header("What agent should observe")]
         public bool ownPosition;
@@ -98,20 +100,24 @@ namespace MlAgents
 
         public override void CollectObservations(VectorSensor sensor)
         {
+            String detailedObservationLog = "Agent Detailed Observations:";
             if(ownPosition) 
             {
                 sensor.AddObservation(_agentMovement.GetPosition());
+                detailedObservationLog += $"\n\tAgents position: {_agentMovement.GetPosition()}\n";
             }
 
             if (ownVelocity)
             {
                 sensor.AddObservation(_agentMovement.GetVelocity());
+                detailedObservationLog += $"\n\tAgents velocity: {_agentMovement.GetVelocity()}\n";
             }
             if(seekersPosition)
             {
                 foreach (var seeker in _dataReferenceCollector.GetAllSeekers())
                 {
                     sensor.AddObservation(seeker.GetPosition());
+                    detailedObservationLog += $"\n\tSeeker position: {seeker.GetPosition()}\n";
                 }
             }
             if(hidersPosition) 
@@ -119,6 +125,7 @@ namespace MlAgents
                 foreach (var hider in _dataReferenceCollector.GetAllHiders())
                 {
                     sensor.AddObservation(hider.GetPosition());
+                    detailedObservationLog  += $"\n\tHider position: {hider.GetPosition()}\n";
                 }
             }
             if(doorsPosition) 
@@ -126,6 +133,7 @@ namespace MlAgents
                 foreach (var door in _dataReferenceCollector.GetAllDoors())
                 {
                     sensor.AddObservation(door.GetPosition());
+                    detailedObservationLog += $"\n\tDoor position: {door.GetPosition()}\n";
                 }
                 
             }
@@ -135,6 +143,7 @@ namespace MlAgents
                 {
                     sensor.AddObservation(door.GetOccupiers().hidersAmount);
                     sensor.AddObservation(door.GetOccupiers().seekersAmount);
+                    detailedObservationLog += $"\n\tDoor occupiers; seekers: {door.GetOccupiers().seekersAmount}, hiders: {door.GetOccupiers().hidersAmount}";
                 }
             }
             if(doorsState) 
@@ -142,6 +151,7 @@ namespace MlAgents
                 foreach (var door in _dataReferenceCollector.GetAllDoors())
                 {
                     sensor.AddObservation(door.GetState());
+                    detailedObservationLog += $"\n\tDoor state: {door.GetState()}\n";
                 }
             }
             if(leftHiders)
@@ -152,6 +162,7 @@ namespace MlAgents
                     leftHidersCount += hider.IsAlive() ? 1 : 0;
                 }
                 sensor.AddObservation(leftHidersCount);
+                detailedObservationLog += $"\n\tHiders left: {leftHidersCount}";
             }
             if(leftSeekers) 
             {
@@ -161,11 +172,18 @@ namespace MlAgents
                     leftSeekersCount += seeker.IsAlive() ? 1 : 0;
                 }
                 sensor.AddObservation(leftSeekersCount);
+                detailedObservationLog += $"\n\tSeekers left: {leftSeekersCount}";
                  
             }
             if(areSeekersInBase) 
             {
                 sensor.AddObservation(_dataReferenceCollector.innerBaseTrigger.AreSeekersInBase());
+                detailedObservationLog += $"\n\tAreSeekersInBase: {_dataReferenceCollector.innerBaseTrigger.AreSeekersInBase()}";
+            }
+
+            if (enableDetailedObservationLogging)
+            {
+                Debug.Log(detailedObservationLog);
             }
         }
 
@@ -179,6 +197,8 @@ namespace MlAgents
                 );
 
             float rewardSum = 0;
+
+            String detailedGradeLog = "Detailed Grade Log:";
             
             if (distanceToNearestHider) {
                 float lowerDistanceToNearestHider = 0;
@@ -190,43 +210,72 @@ namespace MlAgents
                         lowerDistanceToNearestHider = distance;
                     }
                 }
-                rewardSum += - (lowerDistanceToNearestHider / _diagonalMapLength) * distanceToNearestHiderReward; ;
+
+                var distanceToNearestHiderRewardResult = -(lowerDistanceToNearestHider / _diagonalMapLength) * distanceToNearestHiderReward;
+                detailedGradeLog += $"\n\tdistance to nearest hider: {distanceToNearestHiderRewardResult}";
+                rewardSum += distanceToNearestHiderRewardResult;
             }
             if (hiderCaught) {
+                var hiderCaughtRewardResult = 0f;
                 if (_newHiderCaught) {
-                    _cumReward += hiderCaughtReward;
+                    hiderCaughtRewardResult += hiderCaughtReward;
                     _newHiderCaught = false;
                 }
+
+                rewardSum += hiderCaughtRewardResult;
+                detailedGradeLog += $"\n\tHider Caught: {hiderCaughtRewardResult}";
             }
             if (seekersInvadedBase) {
+                var seekersInvadedRewardResult = 0f;
                 if (_baseWasInvaded == false && _dataReferenceCollector.innerBaseTrigger.AreSeekersInBase() ) {
-                    _cumReward += seekersInvadedBaseReward;
+                    seekersInvadedRewardResult += seekersInvadedBaseReward;
                     _baseWasInvaded = true;
                 }
+                rewardSum += seekersInvadedRewardResult;
+                detailedGradeLog += $"\n\tSeekers invaded: {seekersInvadedRewardResult}";
             }
-            if (perSecondOfLife) {
+            if (perSecondOfLife)
+            {
+                var perSecondOfLifeRewardResult = 0f;
                 if (Time.time - _lastRewardGranted >= 1f)
                 {
+                    perSecondOfLifeRewardResult += perSecondOfLifeReward;
                     _lastRewardGranted = Time.time;
                 }
+
+                rewardSum += perSecondOfLifeRewardResult;
+                detailedGradeLog +=  $"\n\tPer second of life: {perSecondOfLifeRewardResult}";
             }
-            if (winByTimeout) {
+            if (winByTimeout)
+            {
+                var winByTimeoutRewardResult = 0f;
                 if (_winByTimeout) {
-                    _cumReward += winByTimeoutReward;
+                    winByTimeoutRewardResult += winByTimeoutReward;
                     _winByTimeout = false;
                 }
+                rewardSum += winByTimeoutRewardResult;
+                detailedGradeLog += $"\n\tWin by timeout: {winByTimeoutRewardResult}";
             }
-            if (baseIsSecure) {
+            if (baseIsSecure)
+            {
+                var baseIsSecureRewardResult = 0f;
                 if (!_dataReferenceCollector.innerBaseTrigger.AreSeekersInBase()) {
-                    _cumReward += baseIsSecureReward;
+                    baseIsSecureRewardResult += baseIsSecureReward;
                 }
-                
+                rewardSum += baseIsSecureRewardResult;
+                detailedGradeLog += $"\n\tBase is Secure: {baseIsSecureRewardResult}";
             }
             
             AddReward(rewardSum);
             _cumReward +=  rewardSum;
+            
             if (enableGradeLogging) {
                 Debug.Log($"Agent was rewarded by: {rewardSum}. Got in total: {_cumReward}");
+            }
+
+            if (enableDetailedGradeLogging) {
+                detailedGradeLog += $"\n\tAgent was rewarded by: {rewardSum}. Got in total: {_cumReward}";
+                Debug.Log(detailedGradeLog);
             }
         }
         
