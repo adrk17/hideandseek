@@ -29,7 +29,7 @@ namespace MlAgents
         
         public int RegisterHider(AgentMovement agent)
         {
-            seekers.Add(agent);
+            hiders.Add(agent);
             return ++_agentsCount;
         }
         
@@ -54,7 +54,7 @@ namespace MlAgents
         
         public List<AgentMovement> GetAllHiders()
         {
-            return seekers;
+            return hiders;
         }
 
         public List<DoorController> GetAllDoors() {
