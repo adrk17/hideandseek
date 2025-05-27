@@ -236,13 +236,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c9e2e9f5ccc91b4ca4c81c3bd711b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorController: {fileID: 3336311995820344286}
   doorWidth: 10
   isOpen: 0
   seekerCount: 0
   hiderCount: 0
+  hiderSeekerBalance: 0
   doorLeftCornerXZ: {x: 0, y: 0}
   doorRightCornerXZ: {x: 0, y: 0}
+  doorCenterXZ: {x: 0, y: 0}
 --- !u!1 &8110487182892881405
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,7 +335,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8110487182892881405}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 720f57def3abf7e4c88e4a94a8f428d7, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

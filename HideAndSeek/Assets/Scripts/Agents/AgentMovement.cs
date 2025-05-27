@@ -27,7 +27,7 @@ public class AgentMovement : MonoBehaviour
         if (direction != Vector3.zero)
         {
             // Vector3 targetPosition = rb.position + direction * (moveSpeed * Time.fixedDeltaTime);
-            rb.AddForce(direction * (moveSpeed * Time.fixedDeltaTime));
+            rb.AddForce(direction * (moveSpeed * Time.fixedDeltaTime), ForceMode.VelocityChange);
         }
     }
 
