@@ -6,7 +6,7 @@
 engine_settings:
   time_scale: 1 # in game time scale, 1 means real time (for the purpose of physics simulation keep it 1)
 behaviors:
-  MlAgentCar:
+  BaseAgent:
     # !!! DEFAULT VALUES for ppo trainer, in order to make tests more reliable, we must keep the same values !!!
     trainer_type: ppo
     hyperparameters:
