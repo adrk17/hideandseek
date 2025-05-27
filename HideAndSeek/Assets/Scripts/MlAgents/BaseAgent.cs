@@ -213,7 +213,9 @@ namespace MlAgents
             
             AddReward(rewardSum);
             _cumReward +=  rewardSum;
-            Debug.Log($"Agent was rewarded by: {rewardSum}. Got in total: {_cumReward}");
+            if (enableGradeLogging) {
+                Debug.Log($"Agent was rewarded by: {rewardSum}. Got in total: {_cumReward}");
+            }
         }
         
         public override void Heuristic(in ActionBuffers actionsOut)
