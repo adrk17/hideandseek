@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 45
+    VectorObservationSize: 33
     NumStackedVectorObservations: 3
     m_ActionSpec:
       m_NumContinuousActions: 0
@@ -215,6 +215,8 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 50000
   enableGradeLogging: 0
+  enableDetailedGradeLogging: 0
+  enableDetailedObservationLogging: 0
   ownPosition: 1
   ownVelocity: 1
   seekersPosition: 1
