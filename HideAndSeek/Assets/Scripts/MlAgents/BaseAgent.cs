@@ -30,6 +30,7 @@ namespace MlAgents
 
         private AgentMovement _agentMovement;
         private DataReferenceCollector  _dataReferenceCollector;
+        private GameManager _gameManager;
 
         private double _cumReward = 0;
         
@@ -66,22 +67,27 @@ namespace MlAgents
         private float _lastRewardGranted;
         private bool _baseWasInvaded = false;
 
-        private const float _diagonalMapLength = 111; 
+        private const float _diagonalMapLength = 111;
+        private int agentId;
+        private bool _newHiderCaught = false;
+        private bool _winByTimeout = false;
         
         public void Awake()
         {
-            var learningUtils = GameObject.Find("Learning");
-            _dataReferenceCollector = learningUtils.GetComponent<DataReferenceCollector>();
+            var managers = GameObject.Find("GameManagers");
+            _agentMovement = transform.GetComponent<AgentMovement>();
+            _dataReferenceCollector = managers.GetComponent<DataReferenceCollector>();
+            _gameManager = managers.GetComponent<GameManager>();
         }
 
         public void Start()
         {
-            _agentMovement = transform.GetComponent<AgentMovement>();
-            _agentMovement = transform.GetComponent<AgentMovement>(); // TODO: ?
+            agentId = _dataReferenceCollector.RegisterAgent(_agentMovement, CompareTag("Seeker"));
+            RegisterEvents();
         }
 
-        public void Update()
-        {
+        private void OnDestroy() {
+            DeregisterEvents();
         }
 
         public override void OnEpisodeBegin()
@@ -187,7 +193,10 @@ namespace MlAgents
                 rewardSum += - (lowerDistanceToNearestHider / _diagonalMapLength) * distanceToNearestHiderReward; ;
             }
             if (hiderCaught) {
-                
+                if (_newHiderCaught) {
+                    _cumReward += hiderCaughtReward;
+                    _newHiderCaught = false;
+                }
             }
             if (seekersInvadedBase) {
                 if (_baseWasInvaded == false && _dataReferenceCollector.innerBaseTrigger.AreSeekersInBase() ) {
@@ -202,7 +211,10 @@ namespace MlAgents
                 }
             }
             if (winByTimeout) {
-                
+                if (_winByTimeout) {
+                    _cumReward += winByTimeoutReward;
+                    _winByTimeout = false;
+                }
             }
             if (baseIsSecure) {
                 if (!_dataReferenceCollector.innerBaseTrigger.AreSeekersInBase()) {
@@ -229,6 +241,24 @@ namespace MlAgents
 
             discreteActions[0] = _playerInputToAgentControls[(int)input.x];
             discreteActions[1] = _playerInputToAgentControls[(int)input.y];
+        }
+        
+        private void RegisterEvents() {
+            _gameManager.onHiderCaught.AddListener(RegisterHiderCaught);
+            _gameManager.onGameEnd.AddListener(RegisterGameEnded);
+        }
+
+        private void DeregisterEvents() {
+            _gameManager.onHiderCaught.RemoveListener(RegisterHiderCaught);
+            _gameManager.onGameEnd.RemoveListener(RegisterGameEnded);
+        }
+
+        private void RegisterHiderCaught() {
+            _newHiderCaught = true;
+        }
+        
+        private void RegisterGameEnded(bool byTimeout) {
+            _winByTimeout = byTimeout;
         }
     }
 }

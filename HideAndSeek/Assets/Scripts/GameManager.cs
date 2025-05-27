@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,8 +24,12 @@ public class GameManager : MonoBehaviour
     
     [Header("Agent Position Control")]
     public bool randomizeStartPositionsOnGameStart = true;
-
-
+    
+    [Header("Events")]
+    public UnityEvent onGameStart;
+    public UnityEvent<bool> onGameEnd; // Win by timeout?
+    public UnityEvent onHiderCaught;
+    
     void Awake()
     {
         if (Instance == null) Instance = this;
@@ -71,6 +76,7 @@ public class GameManager : MonoBehaviour
 
             agentGroup.ResetAllAgents();
         }
+        onGameStart.Invoke();
     }
     
     public void EndGame(bool hiderWon)
@@ -82,6 +88,7 @@ public class GameManager : MonoBehaviour
 
         if (timerText != null)
             timerText.text = (hiderWon ? "Hider wins!" : "Seeker wins!") + "\nPress " + startGameKey + " to restart.";
+        onGameEnd.Invoke(hiderWon);
     }
     
     public void SeekerCaughtHider()
@@ -91,8 +98,9 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("Seeker tried to end game while it wasn't active.");
             return;
         }
-
-        EndGame(false); // Seeker wins
+        
+        onHiderCaught.Invoke();
+        EndGame(false); // Seeker wins TODO: Both hiders should be caught for the game to end
     }
 
     public void ResetGame()

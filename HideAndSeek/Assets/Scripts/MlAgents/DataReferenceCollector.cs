@@ -7,6 +7,10 @@ namespace MlAgents
 {
     public class DataReferenceCollector : MonoBehaviour
     {
+        [Header("System references")]
+        public GameManager gameManager;
+        
+        [Header("References for training")]
         public DoorController firstDoor;
         public DoorController secondDoor;
 
@@ -14,19 +18,23 @@ namespace MlAgents
         public List<AgentMovement> hiders;
 
         public InnerBaseTrigger innerBaseTrigger;
-        
+
+        private int _agentsCount = 0;
+
         public int RegisterSeeker(AgentMovement agent)
         {
-            var currCount = seekers.Count;
             seekers.Add(agent);
-            return currCount;
+            return ++_agentsCount;
         }
         
         public int RegisterHider(AgentMovement agent)
         {
-            var currCount = seekers.Count;
             seekers.Add(agent);
-            return currCount;
+            return ++_agentsCount;
+        }
+        
+        public int RegisterAgent(AgentMovement agent, bool isSeeker) {
+            return isSeeker ? RegisterSeeker(agent) : RegisterHider(agent);
         }
 
         public AgentMovement GetSeeker(int id)

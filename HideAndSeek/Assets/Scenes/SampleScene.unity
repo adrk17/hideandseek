@@ -453,55 +453,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &368953655
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 368953657}
-  - component: {fileID: 368953656}
-  m_Layer: 0
-  m_Name: Learning
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &368953656
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 368953655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4cc73cbc39f4c929fbe77cfda204f7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstDoor: {fileID: 4476172090395410062}
-  secondDoor: {fileID: 816822361}
-  seekers: []
-  hiders: []
-  innerBaseTrigger: {fileID: 1454996134}
---- !u!4 &368953657
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 368953655}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.636279, y: -20.505295, z: 30.461735}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &420414798 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5038375756669311848, guid: 269e6d6bcfde2e645931761be6ff1332, type: 3}
@@ -4825,8 +4776,9 @@ GameObject:
   - component: {fileID: 1660017139}
   - component: {fileID: 1660017140}
   - component: {fileID: 1660017141}
+  - component: {fileID: 1660017142}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: GameManagers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4884,6 +4836,33 @@ MonoBehaviour:
   startGameKey: 32
   agentGroup: {fileID: 2117884150}
   randomizeStartPositionsOnGameStart: 1
+  onGameStart:
+    m_PersistentCalls:
+      m_Calls: []
+  onGameEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  onHiderCaught:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1660017142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660017138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4cc73cbc39f4c929fbe77cfda204f7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
+  firstDoor: {fileID: 4476172090395410062}
+  secondDoor: {fileID: 816822361}
+  seekers: []
+  hiders: []
+  innerBaseTrigger: {fileID: 1454996134}
 --- !u!1001 &1817087433
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6034,5 +6013,4 @@ SceneRoots:
   - {fileID: 1660017139}
   - {fileID: 1356042650}
   - {fileID: 816404526}
-  - {fileID: 368953657}
   - {fileID: 2117884151}
