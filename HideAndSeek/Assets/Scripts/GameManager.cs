@@ -39,22 +39,11 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         InitializeAndResetAgents();
+        StartGame();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(startGameKey))
-        {
-            if (!_gameActive)
-            {
-                StartGame();
-            }
-            else
-            {
-                ResetGame();
-            }
-        }
-        
         UpdateTimer();
     }
     
@@ -114,7 +103,7 @@ public class GameManager : MonoBehaviour
         _timer = gameDuration;
         
         if (timerText != null)
-            timerText.gameObject.SetActive(false);
+            timerText.gameObject.SetActive(true);
         
         ResetAllAgents();
         onGameStart.Invoke();
