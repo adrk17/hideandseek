@@ -64,6 +64,8 @@ namespace MlAgents
         public float winByTimeoutReward;
         public bool baseIsSecure;
         public float baseIsSecureReward;
+        public bool holdingDoor;
+        public float holdingDoorReward;
 
         public bool IsActive { get; set; }
         private float _lastPositionCheck;
@@ -211,7 +213,7 @@ namespace MlAgents
                     }
                 }
 
-                var distanceToNearestHiderRewardResult = -(lowerDistanceToNearestHider / _diagonalMapLength) * distanceToNearestHiderReward;
+                var distanceToNearestHiderRewardResult = (1 - (lowerDistanceToNearestHider / _diagonalMapLength)) * distanceToNearestHiderReward;
                 detailedGradeLog += $"\n\tdistance to nearest hider: {distanceToNearestHiderRewardResult}";
                 rewardSum += distanceToNearestHiderRewardResult;
             }
@@ -254,6 +256,21 @@ namespace MlAgents
                 }
                 rewardSum += baseIsSecureRewardResult;
                 detailedGradeLog += $"\n\tBase is Secure: {baseIsSecureRewardResult}";
+            }
+            if (holdingDoor)
+            {
+                var holdingDoorRewardResult = 0f;
+                foreach (var door in _dataReferenceCollector.GetAllDoors())
+                {
+                    var occupiers = door.GetOccupiers();
+                    if (occupiers.hidersAmount != 0 && occupiers.seekersAmount != 0) {
+                        if (occupiers.hidersAmount == occupiers.seekersAmount) {
+                            holdingDoorRewardResult += holdingDoorReward;
+                        }
+                    }
+                }
+                rewardSum += holdingDoorRewardResult;
+                detailedGradeLog += $"\n\tHolding door Secure: {holdingDoorRewardResult}";
             }
             
             AddReward(rewardSum);
