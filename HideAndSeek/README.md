@@ -1,13 +1,17 @@
 # HidenSeek
 
 ## How to run learning
-1. `conda create -n mlagents python=3.9`
-2. `conda activate mlagents`
-3. `pip install torch==2.3.1+cu118 torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu118`
-4. `pip install -r requirements`
+1. Install conda environment
+```
+conda create python==3.10.12 --name UnityML -y 
+conda activate UnityML
+conda install  numpy==1.21.2 -y 
+(for /f "delims=" %i in ('where pip ^| findstr UnityML') do @%i install --no-cache-dir mlagents==1.0.0)
+(for /f "delims=" %i in ('where pip ^| findstr UnityML') do @%i install torch==2.3.1+cu118 torchvision torch audio --extra-index-url https://download.pytorch.org/whl/cu118)
+```
 ##### To run learning in unity edit mode
-5. `MlAgents-Learn config.yml --run-id run1 --time-scale 10 --torch-device cuda`
-1. Start the game
+1. `MlAgents-Learn config.yml --run-id run1 --time-scale 10 --torch-device cuda`
+2. Start the game
 
 ##### To run learning in server build (way faster)
 5. Build your game as server build
