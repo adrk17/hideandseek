@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TMPro;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
@@ -72,7 +73,6 @@ namespace MlAgents
         private const float _diagonalMapLength = 111;
         private int agentId;
         private bool _newHiderCaught = false;
-        private bool _winByTimeout = false;
         
         public void Awake()
         {
@@ -201,7 +201,7 @@ namespace MlAgents
             String detailedGradeLog = "Detailed Grade Log:";
             
             if (distanceToNearestHider) {
-                float lowerDistanceToNearestHider = 0;
+                float lowerDistanceToNearestHider = float.MaxValue;
                 foreach (var hider in _dataReferenceCollector.GetAllHiders())
                 {
                     var distance = Vector3.Distance(hider.GetPosition(), _agentMovement.GetPosition());
@@ -245,16 +245,6 @@ namespace MlAgents
 
                 rewardSum += perSecondOfLifeRewardResult;
                 detailedGradeLog +=  $"\n\tPer second of life: {perSecondOfLifeRewardResult}";
-            }
-            if (winByTimeout)
-            {
-                var winByTimeoutRewardResult = 0f;
-                if (_winByTimeout) {
-                    winByTimeoutRewardResult += winByTimeoutReward;
-                    _winByTimeout = false;
-                }
-                rewardSum += winByTimeoutRewardResult;
-                detailedGradeLog += $"\n\tWin by timeout: {winByTimeoutRewardResult}";
             }
             if (baseIsSecure)
             {
@@ -307,7 +297,26 @@ namespace MlAgents
         }
         
         private void RegisterGameEnded(bool byTimeout) {
-            _winByTimeout = byTimeout;
+            if (winByTimeout)
+            {
+                var winByTimeoutRewardResult = 0f;
+                if (byTimeout) {
+                    winByTimeoutRewardResult += winByTimeoutReward;
+                }
+
+                _cumReward += winByTimeoutRewardResult;
+                AddReward(winByTimeoutRewardResult);
+                if (enableDetailedGradeLogging)
+                {
+                    Debug.Log($"Agent was rewarded by win by timeout: {winByTimeoutRewardResult}");
+                }
+
+                if (enableGradeLogging)
+                {
+                    Debug.Log($"Agent was rewarded by: {winByTimeoutRewardResult}. Got in total: {_cumReward}");
+                }
+            }
+            EndEpisode();
         }
     }
 }
