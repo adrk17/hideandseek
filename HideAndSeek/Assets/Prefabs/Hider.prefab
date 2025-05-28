@@ -45,12 +45,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3794226673655642533, guid: 257d8df79c78bc4489c2a9f531ce9fb6, type: 3}
+      propertyPath: seekersInvadedBase
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3794226673655642533, guid: 257d8df79c78bc4489c2a9f531ce9fb6, type: 3}
       propertyPath: winByTimeoutReward
       value: 3000
       objectReference: {fileID: 0}
     - target: {fileID: 3794226673655642533, guid: 257d8df79c78bc4489c2a9f531ce9fb6, type: 3}
       propertyPath: perSecondOfLifeReward
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3794226673655642533, guid: 257d8df79c78bc4489c2a9f531ce9fb6, type: 3}
+      propertyPath: seekersInvadedBaseReward
+      value: -300
       objectReference: {fileID: 0}
     - target: {fileID: 3805986757599981969, guid: 257d8df79c78bc4489c2a9f531ce9fb6, type: 3}
       propertyPath: m_Materials.Array.data[0]
