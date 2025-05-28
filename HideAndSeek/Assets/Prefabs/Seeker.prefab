@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: TeamId
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 901957123671912426, guid: 257d8df79c78bc4489c2a9f531ce9fb6, type: 3}
+      propertyPath: m_BehaviorName
+      value: Seeker
+      objectReference: {fileID: 0}
     - target: {fileID: 3794226673655642533, guid: 257d8df79c78bc4489c2a9f531ce9fb6, type: 3}
       propertyPath: hiderCaught
       value: 1
