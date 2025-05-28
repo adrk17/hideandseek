@@ -31,19 +31,24 @@ behaviors:
     # REWARD SIGNALS - more info: https://github.com/yosider/ml-agents-1/blob/master/docs/Reward-Signals.md
     reward_signals:
       extrinsic:
-        gamma: 1.0
+        gamma: 0.99
         strength: 1.0
 
       # intrinsic rewards - curiosity
       curiosity:
-        gamma: 0.8 # typicall range 0.8 - 0.995
-        strength: 0.01 # typicall range 0.001 - 0.1
+        gamma: 0.4 # typicall range 0.8 - 0.995
+        strength: 1.0 # typicall range 0.001 - 0.1
         network_settings:
           normalize: True
           hidden_units: 128
           num_layers: 3
           goal_conditioning_type: hyper
           deterministic: False
+          
+    max_steps: 1000000000 # 1 000 000 000
+    time_horizon: 64 # 64
+    summary_freq: 50000 # 50 000
+    threaded: True
   Seeker:
     # !!! DEFAULT VALUES for ppo trainer, in order to make tests more reliable, we must keep the same values !!!
     trainer_type: ppo
@@ -69,13 +74,13 @@ behaviors:
     # REWARD SIGNALS - more info: https://github.com/yosider/ml-agents-1/blob/master/docs/Reward-Signals.md
     reward_signals:
       extrinsic:
-        gamma: 1.0
+        gamma: 0.99
         strength: 1.0
 
       # intrinsic rewards - curiosity
       curiosity:
-        gamma: 0.8 # typicall range 0.8 - 0.995
-        strength: 0.01 # typicall range 0.001 - 0.1
+        gamma: 0.4 # typicall range 0.8 - 0.995
+        strength: 1.0 # typicall range 0.001 - 0.1
         network_settings:
           normalize: True
           hidden_units: 128
