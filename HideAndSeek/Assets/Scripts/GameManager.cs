@@ -84,11 +84,11 @@ public class GameManager : MonoBehaviour
         _gameActive = false;
         Debug.Log(hiderWon ? "Hider wins!" : "Seeker wins!");
 
-        ResetAllAgents();
-
         if (timerText != null)
             timerText.text = (hiderWon ? "Hider wins!" : "Seeker wins!") + "\nPress " + startGameKey + " to restart.";
         onGameEnd.Invoke(hiderWon);
+        
+        ResetGame();
     }
     
     public void SeekerCaughtHider()
@@ -105,13 +105,19 @@ public class GameManager : MonoBehaviour
 
     public void ResetGame()
     {
-        _gameActive = false;
+        if (randomizeStartPositionsOnGameStart && agentGroup.randomPositions)
+        {
+            agentGroup.SetRandomStartPositions();
+        }
+        
+        _gameActive = true;
         _timer = gameDuration;
         
         if (timerText != null)
             timerText.gameObject.SetActive(false);
-        ResetAllAgents();
         
+        ResetAllAgents();
+        onGameStart.Invoke();
         Debug.Log("Game reset.");
     }
 

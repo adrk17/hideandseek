@@ -54,9 +54,9 @@ public class AgentGroupManager : MonoBehaviour
 
     private void Start()
     {
+        PopulateAgentList();
         if (randomPositions)
         {
-            PopulateAgentList();
             SetRandomStartPositions();
         }
 
