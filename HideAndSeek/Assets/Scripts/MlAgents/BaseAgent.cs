@@ -213,7 +213,7 @@ namespace MlAgents
                     }
                 }
 
-                var distanceToNearestHiderRewardResult = (1 - (lowerDistanceToNearestHider / _diagonalMapLength)) * distanceToNearestHiderReward;
+                var distanceToNearestHiderRewardResult =  - (lowerDistanceToNearestHider / _diagonalMapLength) * distanceToNearestHiderReward;
                 detailedGradeLog += $"\n\tdistance to nearest hider: {distanceToNearestHiderRewardResult}";
                 rewardSum += distanceToNearestHiderRewardResult;
             }
@@ -239,11 +239,8 @@ namespace MlAgents
             if (perSecondOfLife)
             {
                 var perSecondOfLifeRewardResult = 0f;
-                if (Time.time - _lastRewardGranted >= 1f)
-                {
                     perSecondOfLifeRewardResult += perSecondOfLifeReward;
                     _lastRewardGranted = Time.time;
-                }
 
                 rewardSum += perSecondOfLifeRewardResult;
                 detailedGradeLog +=  $"\n\tPer second of life: {perSecondOfLifeRewardResult}";

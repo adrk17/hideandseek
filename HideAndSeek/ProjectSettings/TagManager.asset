@@ -11,11 +11,11 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - DoorsTrigger
   - Water
   - UI
-  - 
-  - 
+  - Seeker
+  - Hider
   - 
   - 
   - 
