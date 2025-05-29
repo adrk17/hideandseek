@@ -4,7 +4,7 @@
 
 # https://unity-technologies.github.io/ml-agents/Training-Configuration-File/#extrinsic-rewards
 engine_settings:
-  time_scale: 1 # in game time scale, 1 means real time (for the purpose of physics simulation keep it 1)
+  time_scale: 100 # in game time scale, 1 means real time (for the purpose of physics simulation keep it 1)
 behaviors:
   Hider:
     # !!! DEFAULT VALUES for ppo trainer, in order to make tests more reliable, we must keep the same values !!!
@@ -37,7 +37,7 @@ behaviors:
       # intrinsic rewards - curiosity
       curiosity:
         gamma: 0.4 # typicall range 0.8 - 0.995
-        strength: 1.0 # typicall range 0.001 - 0.1
+        strength: 0.2 # typicall range 0.001 - 0.1
         network_settings:
           normalize: True
           hidden_units: 128
@@ -80,7 +80,7 @@ behaviors:
       # intrinsic rewards - curiosity
       curiosity:
         gamma: 0.4 # typicall range 0.8 - 0.995
-        strength: 1.0 # typicall range 0.001 - 0.1
+        strength: 0.2 # typicall range 0.001 - 0.1
         network_settings:
           normalize: True
           hidden_units: 128
