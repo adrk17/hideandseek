@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
     public void EndGame(bool hiderWon)
     {
         _gameActive = false;
-        Debug.Log(hiderWon ? "Hider wins!" : "Seeker wins!");
+        Debug.LogWarning(hiderWon ? "Hider wins!" : "Seeker wins!");
 
         if (timerText != null)
             timerText.text = (hiderWon ? "Hider wins!" : "Seeker wins!") + "\nPress " + startGameKey + " to restart.";
@@ -87,6 +87,8 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("Seeker tried to end game while it wasn't active.");
             return;
         }
+        
+        Debug.LogWarning("Seeker caught Hider.");
         
         onHiderCaught.Invoke();
         EndGame(false); // Seeker wins TODO: Both hiders should be caught for the game to end
@@ -107,7 +109,7 @@ public class GameManager : MonoBehaviour
         
         ResetAllAgents();
         onGameStart.Invoke();
-        Debug.Log("Game reset.");
+        Debug.LogWarning("Game reset.");
     }
 
     ////// Timer functions //////
@@ -142,6 +144,7 @@ public class GameManager : MonoBehaviour
     
     private void ResetAllAgents()
     {
+        Debug.LogWarning("Reset all agents.");
         if (agentGroup != null && agentGroup.AgentsInitialized)
         {
             agentGroup.ResetAllAgents();
@@ -167,6 +170,7 @@ public class GameManager : MonoBehaviour
 
         while (!agentGroup.AgentsInitialized)
         {
+            Debug.LogWarning("Waiting for initialize.");
             yield return null; // wait one frame
         }
 

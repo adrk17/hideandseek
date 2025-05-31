@@ -54,8 +54,8 @@ namespace MlAgents
         [Header("Required references")] 
         public bool distanceToNearestHider;
         public float distanceToNearestHiderReward;
-        public bool hiderCaught;
-        public float hiderCaughtReward;
+        public bool winByCaught;
+        public float winByCaughtReward;
         public bool seekersInvadedBase;
         public float seekersInvadedBaseReward;
         public bool perSecondOfLife;
@@ -74,7 +74,6 @@ namespace MlAgents
 
         private const float _diagonalMapLength = 111;
         private int agentId;
-        private bool _newHiderCaught = false;
         
         public void Awake()
         {
@@ -94,10 +93,15 @@ namespace MlAgents
             DeregisterEvents();
         }
 
+        public void ResetAgentStateParameters()
+        {
+            _baseWasInvaded = false;
+            _cumReward = 0;
+        }
+
         public override void OnEpisodeBegin()
         {
-            _cumReward = 0;
-            _baseWasInvaded = false;
+            ResetAgentStateParameters();
         }
 
         public override void CollectObservations(VectorSensor sensor)
@@ -217,16 +221,6 @@ namespace MlAgents
                 detailedGradeLog += $"\n\tdistance to nearest hider: {distanceToNearestHiderRewardResult}";
                 rewardSum += distanceToNearestHiderRewardResult;
             }
-            if (hiderCaught) {
-                var hiderCaughtRewardResult = 0f;
-                if (_newHiderCaught) {
-                    hiderCaughtRewardResult += hiderCaughtReward;
-                    _newHiderCaught = false;
-                }
-
-                rewardSum += hiderCaughtRewardResult;
-                detailedGradeLog += $"\n\tHider Caught: {hiderCaughtRewardResult}";
-            }
             if (seekersInvadedBase) {
                 var seekersInvadedRewardResult = 0f;
                 if (_baseWasInvaded == false && _dataReferenceCollector.innerBaseTrigger.AreSeekersInBase() ) {
@@ -307,7 +301,10 @@ namespace MlAgents
         }
 
         private void RegisterHiderCaught() {
-            _newHiderCaught = true;
+            if (enableDetailedGradeLogging)
+            {
+                Debug.LogWarning($"Agent detected Hider Caught");
+            }
         }
         
         private void RegisterGameEnded(bool byTimeout) {
@@ -330,7 +327,31 @@ namespace MlAgents
                     Debug.Log($"Agent was rewarded by: {winByTimeoutRewardResult}. Got in total: {_cumReward}");
                 }
             }
+            if (winByCaught)
+            {
+                var winByCaughtRewardResult = 0f;
+                if (!byTimeout) {
+                    winByCaughtRewardResult += winByCaughtReward;
+                }
+
+                _cumReward += winByCaughtRewardResult;
+                AddReward(winByCaughtRewardResult);
+                if (enableDetailedGradeLogging)
+                {
+                    Debug.Log($"Agent was rewarded by win by caught: {winByCaughtRewardResult}");
+                }
+
+                if (enableGradeLogging)
+                {
+                    Debug.Log($"Agent was rewarded by: {winByCaughtRewardResult}. Got in total: {_cumReward}");
+                }
+            }
             EndEpisode();
+            ResetAgentStateParameters();
+            if (enableDetailedGradeLogging)
+            {
+                Debug.Log($"Episode was ended");
+            }
         }
     }
 }

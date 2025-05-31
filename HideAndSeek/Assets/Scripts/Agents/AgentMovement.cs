@@ -17,7 +17,7 @@ public class AgentMovement : MonoBehaviour
 
     void Start()
     {
-        ResetPosition();
+        // ResetPosition();
     }
 
     public void Move(Vector2 input)
