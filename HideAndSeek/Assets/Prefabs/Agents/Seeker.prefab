@@ -17,6 +17,14 @@ PrefabInstance:
       value: Seeker
       objectReference: {fileID: 0}
     - target: {fileID: 1341563386569899187, guid: 257d8df79c78bc4489c2a9f531ce9fb6, type: 3}
+      propertyPath: m_RaysPerDirection
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1341563386569899187, guid: 257d8df79c78bc4489c2a9f531ce9fb6, type: 3}
+      propertyPath: m_SphereCastRadius
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1341563386569899187, guid: 257d8df79c78bc4489c2a9f531ce9fb6, type: 3}
       propertyPath: m_RayLayerMask.m_Bits
       value: 4294967168
       objectReference: {fileID: 0}
@@ -33,8 +41,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3794226673655642533, guid: 257d8df79c78bc4489c2a9f531ce9fb6, type: 3}
+      propertyPath: winByCaught
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3794226673655642533, guid: 257d8df79c78bc4489c2a9f531ce9fb6, type: 3}
       propertyPath: hiderCaughtReward
       value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3794226673655642533, guid: 257d8df79c78bc4489c2a9f531ce9fb6, type: 3}
+      propertyPath: winByCaughtReward
+      value: 3000
       objectReference: {fileID: 0}
     - target: {fileID: 3794226673655642533, guid: 257d8df79c78bc4489c2a9f531ce9fb6, type: 3}
       propertyPath: seekersInvadedBase
@@ -46,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3794226673655642533, guid: 257d8df79c78bc4489c2a9f531ce9fb6, type: 3}
       propertyPath: seekersInvadedBaseReward
-      value: 3000
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 3794226673655642533, guid: 257d8df79c78bc4489c2a9f531ce9fb6, type: 3}
       propertyPath: distanceToNearestHiderReward

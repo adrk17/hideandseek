@@ -17,6 +17,14 @@ PrefabInstance:
       value: Hider
       objectReference: {fileID: 0}
     - target: {fileID: 1341563386569899187, guid: 257d8df79c78bc4489c2a9f531ce9fb6, type: 3}
+      propertyPath: m_RaysPerDirection
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1341563386569899187, guid: 257d8df79c78bc4489c2a9f531ce9fb6, type: 3}
+      propertyPath: m_SphereCastRadius
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1341563386569899187, guid: 257d8df79c78bc4489c2a9f531ce9fb6, type: 3}
       propertyPath: m_RayLayerMask.m_Bits
       value: 4294967104
       objectReference: {fileID: 0}

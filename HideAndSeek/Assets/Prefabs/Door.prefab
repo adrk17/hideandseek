@@ -128,7 +128,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1636795674934761974}
   - component: {fileID: 1670394090142820289}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: DoorTrigger
   m_TagString: Door
   m_Icon: {fileID: 0}
